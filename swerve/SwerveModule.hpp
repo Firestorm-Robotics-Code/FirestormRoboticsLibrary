@@ -92,7 +92,29 @@ public:
         isLinked = true;           
         linkSwerve = LinkSwerve; 
     }
-
+    
+    bool withinDeadband(double num, double deadband, double reference = 0) {
+        return num - deadband >= reference - deadband && num + deadband <= reference + deadband;
+    }
+    
+    /**
+     * Get the current (physical) direction of the module
+     */
+    
+    long GetDirection() {
+        return smartLoop(cancoder -> GetAbsolutePosition() - encoderOffset);
+    }
+    /**
+     * Returns true if at a position (with a deadband)
+     */
+    
+    bool isAtPosition(double position) {
+        if (withinDeadband(GetDirection(), 5, position)) {
+            return true;
+        }
+        return false;
+    }
+    
     double coterminal(double angle) {
         while (angle >= 360) {
             angle -= 360;
@@ -108,10 +130,10 @@ public:
      @param targetPos The encoder tick to aim for
      */
     
-    void SetDirection(double targetPos) {
+    void SetDirection(double targetPos, bool followLink = true) {
         directionController -> SetPosition(targetPos);
         directionController -> Update(GetDirection());
-        if (isLinked){
+        if (isLinked && followLink){
             linkSwerve -> SetDirection(targetPos);
         }
     }
@@ -143,22 +165,14 @@ public:
      * Orient the swerve drive 
      */
     
-    void Orient(int angle) {
-        if (angle < 180) {
-            SetDirection((4096/360) * coterminal(270 - (swerveRole * 90)));              // Math time
+    void Orient(int angle, int currentAngle) {
+        if (angle != -1) {
+            if (swerveRole == 1 || swerveRole == 3) {
+                SetDirection((4096/360) * 45, false);
+            }
+            else {
+                SetDirection((4096/360) * 315, false);
+            }
         }
-        else {
-            SetDirection((4096/360) * coterminal(360 - (swerveRole * 90)));           
-        }
-        
-        if (isLinked) {
-            linkSwerve -> Orient(angle);
-        }
-    }
-    /**
-     * Get the current (physical) direction of the module
-     */
-    long GetDirection() {
-        return smartLoop(cancoder -> GetAbsolutePosition() - encoderOffset);
     }
 };
