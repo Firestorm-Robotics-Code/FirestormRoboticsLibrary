@@ -92,7 +92,14 @@ public:
         isLinked = true;           
         linkSwerve = LinkSwerve; 
     }
-
+    /**
+     * Within a deadband
+     */
+    
+    bool withinDeadband(double num, double dead, double reference = 0) {
+        return reference + num <= reference + dead && reference - num >= reference - dead;
+    }
+    
     double coterminal(double angle) {
         while (angle >= 360) {
             angle -= 360;
@@ -101,6 +108,21 @@ public:
             angle += 360;
         }
         return angle;
+    }
+    
+        /**
+     * Get the current (physical) direction of the module
+     */
+    long GetDirection() {
+        return smartLoop(cancoder -> GetAbsolutePosition() - encoderOffset);
+    }
+    
+    /**
+     Returns true if is at a position
+     */
+    
+    bool isAtPosition(double pos, double deadband) {
+        return withinDeadband(GetDirection(), deadband, pos);
     }
     
     /**
@@ -143,22 +165,16 @@ public:
      * Orient the swerve drive 
      */
     
-    void Orient(int angle) {
+    void Orient(int angle, double current) {
         if (angle < 180) {
-            SetDirection((4096/360) * coterminal(270 - (swerveRole * 90)));              // Math time
+            
         }
         else {
-            SetDirection((4096/360) * coterminal(360 - (swerveRole * 90)));           
+            
         }
         
         if (isLinked) {
             linkSwerve -> Orient(angle);
         }
-    }
-    /**
-     * Get the current (physical) direction of the module
-     */
-    long GetDirection() {
-        return smartLoop(cancoder -> GetAbsolutePosition() - encoderOffset);
     }
 };
