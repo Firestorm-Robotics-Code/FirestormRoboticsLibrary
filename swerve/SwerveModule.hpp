@@ -189,7 +189,7 @@ public:
             }
 
             if (isLinked) {
-                linkSwerve -> Orient(angle);
+                bool _voidBool = linkSwerve -> Orient(angle);
             }
         }
     }
