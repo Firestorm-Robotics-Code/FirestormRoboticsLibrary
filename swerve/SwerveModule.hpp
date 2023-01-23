@@ -110,10 +110,7 @@ public:
         return smartLoop(cancoder -> GetAbsolutePosition() - encoderOffset);
     }
 
-    bool withinDeadband(double num, double dead, double reference = 0, bool followLink = false, short followRole = linkSwerve -> swerveRole) {
-        if (isLinked && linkSwerve -> swerveRole == followRole) {
-            linkSwerve -> withinDeadband(num, dead, referenct, followLink);
-        }
+    bool withinDeadband(double num, double dead, double reference = 0) {
         return reference + num <= reference + dead && reference - num >= reference - dead;
     }
 
@@ -191,8 +188,6 @@ public:
                 
             }
 
-            
-            
             if (isLinked) {
                 linkSwerve -> Orient(angle);
             }
