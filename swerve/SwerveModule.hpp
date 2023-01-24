@@ -172,16 +172,16 @@ public:
         else {
             if ((swerveRole == 1 || swerveRole == 3)) {          // If top-left or botton-right
                 SetDirection((4096/360) * 45, false);          // Go at 45 degrees
-                if (withinDeadband(GetDirection(), 3, (4096/360) * 45)) {         // If there
+                /*if (withinDeadband(GetDirection(), 3, (4096/360) * 45)) {         // If there
                     readyToOrient = true;                    // Ready to orient; when all of them are ready, the speed will set
-                }
+                }*/
             }   
 
             else {
                 SetDirection((4096/360) * 315, false);
-                if (withinDeadband(GetDirection(), 3, (4096/360) * 315)) {
+                /*if (withinDeadband(GetDirection(), 3, (4096/360) * 315)) {
                     readyToOrient = true;
-                }
+                }*/
             }
 
             if (allReadyToOrient()) {
@@ -191,7 +191,7 @@ public:
             if (isLinked) {
                 bool _voidBool = linkSwerve -> Orient(angle, currentAngle);
             }
-            return false;
+            return withinDeadband(angle, 5, currentAngle);
         }
     }
 };
