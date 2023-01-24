@@ -111,7 +111,7 @@ public:
     }
 
     bool withinDeadband(double num, double dead, double reference = 0) {
-        return reference + num <= reference + dead && reference - num >= reference - dead;
+        return num - reference <= dead && num - reference >= -dead;
     }
 
     /**
