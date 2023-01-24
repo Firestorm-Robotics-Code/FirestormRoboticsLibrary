@@ -55,7 +55,16 @@ class SwerveModule {
     double encoderOffset;
     
 public:
+
+    /**
+     * The "role" of the swerve module (i.e. Frontleft = 1, Frontright = 2, etc.)
+    */
+
     short swerveRole;
+    /**
+     * Whether or not the wheel is ready for orientation
+    */
+    
     bool readyToOrient = false;
     /**
      * Constructor
