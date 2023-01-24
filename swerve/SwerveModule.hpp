@@ -163,7 +163,7 @@ public:
     /**
      * Orient the swerve drive 
      @param angle The desired angle (in encoder ticks)
-     @param currentAngle The current navX of the robot (also in encoder ticks)
+     @param currentAngle The current navX angle of the robot (also in encoder ticks)
      */
 
     bool Orient(int angle, int currentAngle) {
@@ -186,12 +186,12 @@ public:
                 }*/
             }
 
-            if (allReadyToOrient()) {
+            /*if (allReadyToOrient()) {
                 
-            }
+            }*/
 
             if (isLinked) {
-                bool _voidBool = linkSwerve -> Orient(angle, currentAngle);
+                bool _voidBool = linkSwerve -> Orient(angle, currentAngle);    // Makes the linkSwerve act like a void, because it kinda is
             }
             return withinDeadband(angle, 5, currentAngle);
         }
