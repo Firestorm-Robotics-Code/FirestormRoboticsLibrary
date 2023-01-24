@@ -92,16 +92,6 @@ public:
         isLinked = true;           
         linkSwerve = LinkSwerve; 
     }
-
-    double coterminal(double angle) {
-        while (angle >= 360) {
-            angle -= 360;
-        }
-        while (angle < 0) {
-            angle += 360;
-        }
-        return angle;
-    }
     
         /**
      * Get the current (physical) direction of the module
@@ -109,6 +99,13 @@ public:
     long GetDirection() {
         return smartLoop(cancoder -> GetAbsolutePosition() - encoderOffset);
     }
+
+     /**
+      * Return true if within a certain deadband.
+      @param num The current number
+      @param dead The current deadband
+      @param reference The reference point (defaulted to zero)
+     */
 
     bool withinDeadband(double num, double dead, double reference = 0) {
         return num - reference <= dead && num - reference >= -dead;
@@ -118,7 +115,6 @@ public:
      * Set the direction of the motor.
      @param targetPos The encoder tick to aim for
      @param followLink Whether or not to follow its link
-     @param followRole What role to follow
      */
     
     void SetDirection(double targetPos, bool followLink = true) {
@@ -152,17 +148,23 @@ public:
             linkSwerve -> ApplySpeed();
         }
     } 
-
-    /**
-     * Orient the swerve drive 
-     */
     
+    /**
+     * Make sure all wheels are ready for orientation change
+     */
+
     bool allReadyToOrient() {
         if (swerveRole == 4) {
             return ((readyToOrient) && (linkSwerve -> readyToOrient) && (linkSwerve -> linkSwerve -> readyToOrient) && (linkSwerve -> linkSwerve -> linkSwerve -> readyToOrient));
         }
         return false;
     }
+
+    /**
+     * Orient the swerve drive 
+     @param angle The desired angle (in encoder ticks)
+     @param currentAngle The current navX of the robot (also in encoder ticks)
+     */
 
     bool Orient(int angle, int currentAngle) {
         if (angle == -1) {        // If the POV is not being currently pressed
