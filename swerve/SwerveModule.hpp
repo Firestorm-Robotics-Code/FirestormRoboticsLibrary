@@ -186,7 +186,7 @@ public:
     bool Orient(int angle, int currentAngle) {
         double target;
 
-        if (angle == -1) {        // If the POV is not being currently pressed
+        if (angle == -1 * (4096/360)) {        // If the POV is not being currently pressed
             return true;
         }
 
