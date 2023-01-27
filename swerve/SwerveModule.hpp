@@ -55,7 +55,8 @@ class SwerveModule {
     double encoderOffset;
     
 public:
-
+    bool speedInvert;
+    bool direcInvert;
     /**
      * The "role" of the swerve module (i.e. Frontleft = 1, Frontright = 2, etc.)
     */
@@ -90,7 +91,9 @@ public:
         directionController -> SetCircumference(4096);
         
         speed -> SetInverted(speedInverted);
+        speedInvert = speedInverted;
         direction -> SetInverted(direcInverted);
+        direcInvert = direcInverted;
     }
     
     /**
@@ -159,8 +162,8 @@ public:
     } 
     
     void resetInvert() {
-        speed -> SetInverted(speedInverted);
-        direction -> SetInverted(direcInverted);
+        speed -> SetInverted(speedInvert);
+        direction -> SetInverted(direcInvert);
     }
 
     /**
@@ -207,12 +210,12 @@ public:
                 if (!withinDeadband(currentAngle, 5, target)) {
                     if (target < 0) {
                         if (swerveRole == 1 || swerveRole == 3) {
-                            speed -> SetInverted(!speedInverted);
+                            speed -> SetInverted(!speedInvert);
                         }
                     }
                     else {
                         if (swerveRole == 2 || swerveRole == 4) {
-                            speed -> SetInverted(!speedInverted);
+                            speed -> SetInverted(!speedInvert);
                         }
                     }
                     speed -> Set(.2);
