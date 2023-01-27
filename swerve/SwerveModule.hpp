@@ -158,6 +158,11 @@ public:
         }
     } 
     
+    void resetInvert() {
+        speed -> SetInverted(speedInverted);
+        direction -> SetInverted(direcInverted);
+    }
+
     /**
      * Make sure all wheels are ready for orientation change
      */
@@ -202,12 +207,12 @@ public:
                 if (!withinDeadband(currentAngle, 5, target)) {
                     if (target < 0) {
                         if (swerveRole == 1 || swerveRole == 3) {
-                            speed -> SetInverted(!invert);
+                            speed -> SetInverted(!speedInverted);
                         }
                     }
                     else {
                         if (swerveRole == 2 || swerveRole == 4) {
-                            speed -> SetInverted(!invert);
+                            speed -> SetInverted(!speedInverted);
                         }
                     }
                     speed -> Set(.2);
