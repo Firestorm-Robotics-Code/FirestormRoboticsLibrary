@@ -171,10 +171,10 @@ public:
      */
 
     bool allReadyToOrient() {
-        if (swerveRole == 4) {
-            return ((readyToOrient) && (linkSwerve -> readyToOrient) && (linkSwerve -> linkSwerve -> readyToOrient) && (linkSwerve -> linkSwerve -> linkSwerve -> readyToOrient));
+        if (isLinked) {
+            return linkSwerve -> allReadyToOrient();
         }
-        return false;
+        return readyToOrient;
     }
 
     /**
@@ -218,7 +218,7 @@ public:
                             speed -> SetInverted(!speedInvert);
                         }
                     }
-                    speed -> Set(.2);
+                    speed -> SetPercent(.2);
 
                 }
             }
