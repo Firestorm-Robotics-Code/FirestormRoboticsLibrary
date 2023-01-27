@@ -236,5 +236,8 @@ public:
         else {
             SetDirection((0));
         }
+        if (isLinked) {
+            linkSwerve -> brake();
+        }
     }
 };
