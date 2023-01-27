@@ -176,6 +176,8 @@ public:
      */
 
     bool Orient(int angle, int currentAngle) {
+        double target;
+
         if (angle == -1) {        // If the POV is not being currently pressed
             return true;
         }
@@ -183,26 +185,49 @@ public:
         else {
             if ((swerveRole == 1 || swerveRole == 3)) {          // If top-left or botton-right
                 SetDirection((4096/360) * 45, false);          // Go at 45 degrees
-                /*if (withinDeadband(GetDirection(), 3, (4096/360) * 45)) {         // If there
+                if (withinDeadband(GetDirection(), 3, (4096/360) * 45)) {         // If there
                     readyToOrient = true;                    // Ready to orient; when all of them are ready, the speed will set
-                }*/
+                }
             }   
 
             else {
                 SetDirection((4096/360) * 315, false);
-                /*if (withinDeadband(GetDirection(), 3, (4096/360) * 315)) {
+                if (withinDeadband(GetDirection(), 3, (4096/360) * 315)) {
                     readyToOrient = true;
-                }*/
+                }
             }
 
-            /*if (allReadyToOrient()) {
-                
-            }*/
+            if (allReadyToOrient()) {
+                target = smartLoop(angle, currentAngle);
+                if (!withinDeadband(currentAngle, 5, target)) {
+                    if (target < 0) {
+                        if (swerveRole == 1 || swerveRole == 3) {
+                            speed -> SetInverted(!invert);
+                        }
+                    }
+                    else {
+                        if (swerveRole == 2 || swerveRole == 4) {
+                            speed -> SetInverted(!invert);
+                        }
+                    }
+                    speed -> Set(.2);
+
+                }
+            }
 
             if (isLinked) {
                 bool _voidBool = linkSwerve -> Orient(angle, currentAngle);    // Makes the linkSwerve act like a void, because it kinda is
             }
             return withinDeadband(angle, 5, currentAngle);
+        }
+    }
+
+    void brake() {
+        if (swerveRole == 1 || swerveRole == 2) {
+            SetDirection((4096/360) * 180);
+        }
+        else {
+            SetDirection((0));
         }
     }
 };
