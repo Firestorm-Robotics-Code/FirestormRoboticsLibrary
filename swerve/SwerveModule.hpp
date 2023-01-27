@@ -171,7 +171,7 @@ public:
      */
 
     bool allReadyToOrient() {
-        if (isLinked) {
+        if (isLinked && readyToOrient) {
             return linkSwerve -> allReadyToOrient();
         }
         return readyToOrient;
@@ -219,7 +219,6 @@ public:
                         }
                     }
                     speed -> SetPercent(.2);
-
                 }
             }
 
