@@ -95,7 +95,7 @@ public:
         direction -> SetInverted(direcInverted);
         direcInvert = direcInverted;
 
-        speed -> ConfigIdleMode(rev::CANSparkMax::IdleMode::kBrake);                             // This basically treats the spark like a giant resistor
+        speed -> ConfigIdleMode(rev::CANSparkMax::IdleMode::kBrake);
     }
     
     /**
@@ -214,7 +214,7 @@ public:
             }
 
             if (allReadyToOrient()) {
-                target = smartLoop(angle, currentAngle);
+                target = loopize(angle, currentAngle);
                 if (!withinDeadband(currentAngle, 15, target)) {
                     if (target < 0) {
                         if (swerveRole == 1 || swerveRole == 3) {
@@ -228,17 +228,20 @@ public:
                     }
                     speed -> SetPercent(.2);
                 }
+                else {
+                    speed -> SetPercent(0);
+                }
             }
 
             if (isLinked) {
                 bool _voidBool = linkSwerve -> Orient(angle, currentAngle);    // Makes the linkSwerve act like a void, because it kinda is
             }
-            return withinDeadband(currentAngle, 5, angle);
+            return withinDeadband(currentAngle, 15, angle);
         }
     }
 
     /**
-     * Makes the swerve module 'brake' by setting the wheels in a position where it has a lot of traction.
+     * Makes the swerve module 'brake' by setting the wheels in a position where it produces a lot of traction.
     */
 
     void brake() {
