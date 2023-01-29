@@ -94,6 +94,8 @@ public:
         speedInvert = speedInverted;
         direction -> SetInverted(direcInverted);
         direcInvert = direcInverted;
+
+        speed -> ConfigIdleMode(rev::CANSparkMax::IdleMode::kBrake);                             // This basically treats the spark like a giant resistor
     }
     
     /**
@@ -196,12 +198,18 @@ public:
                 if (withinDeadband(GetDirection(), 15, (4096/360) * 45)) {         // If there
                     readyToOrient = true;                    // Ready to orient; when all of them are ready, the speed will set
                 }
+                else {
+                    readyToOrient = false;
+                }
             }   
 
             else {
                 SetDirection((4096/360) * 45, false);
                 if (withinDeadband(GetDirection(), 15, (4096/360) * 315)) {
                     readyToOrient = true;
+                }
+                else {
+                    readyToOrient = false;
                 }
             }
 

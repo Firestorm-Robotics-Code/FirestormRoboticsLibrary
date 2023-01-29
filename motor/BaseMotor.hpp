@@ -73,7 +73,7 @@ public:
      * Return whether the motor is at the 0 state. Don't override this function in subclasses!
      */
 
-    virtual void ConfigIdleMode() = 0;
+    virtual void ConfigIdleMode(short idleMode) = 0;
     bool IsAtZero() {
         return GetPosition() == 0;
     }

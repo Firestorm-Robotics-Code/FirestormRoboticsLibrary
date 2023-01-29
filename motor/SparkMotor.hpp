@@ -75,7 +75,7 @@ public:
         controls -> pid.SetReference(speed, rev::CANSparkMax::ControlType::kVelocity);
     }
 
-    void ConfigIdleMode(rev::CANSparkMax::IdleMode idleMode) {
+    void ConfigIdleMode(short idleMode) {            // Since rev::CANSparkMax::IdleMode returns 0 or 1, you can just set it to 0 or 1.
         spark -> SetIdleMode(idleMode);
     }
 };
