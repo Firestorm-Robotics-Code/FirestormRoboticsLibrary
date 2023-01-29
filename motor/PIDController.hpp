@@ -89,6 +89,7 @@ class PIDController {
      */
     long rotationLength = -1; // -1 = no looping
 
+
     /**
      * Returns a classically calculated error if the PIDController is not configured to loop-around, otherwise returns the output of loopize.
     
@@ -134,7 +135,7 @@ class PIDController {
     }
 
 public:
-    /**
+        /**
      * Calculate error between a setpoint and current position *based on the fact that there are always 2 ways to reach any given point on a circle*.
      
      * Used internally only.
@@ -154,6 +155,7 @@ public:
             return set - cur;
         }
     }
+
     /**
      * Constants for PID.
      */

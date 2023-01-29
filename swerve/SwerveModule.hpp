@@ -95,7 +95,7 @@ public:
         direction -> SetInverted(direcInverted);
         direcInvert = direcInverted;
 
-        speed -> ConfigIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+        speed -> ConfigIdleToBrake();
     }
     
     /**
@@ -214,7 +214,7 @@ public:
             }
 
             if (allReadyToOrient()) {
-                target = loopize(angle, currentAngle);
+                target = directionController -> loopize(angle, currentAngle);
                 if (!withinDeadband(currentAngle, 15, target)) {
                     if (target < 0) {
                         if (swerveRole == 1 || swerveRole == 3) {
@@ -236,12 +236,12 @@ public:
             if (isLinked) {
                 bool _voidBool = linkSwerve -> Orient(angle, currentAngle);    // Makes the linkSwerve act like a void, because it kinda is
             }
-            return withinDeadband(currentAngle, 15, angle);
+            return withinDeadband(currentAngle, 5, angle);
         }
     }
 
     /**
-     * Makes the swerve module 'brake' by setting the wheels in a position where it produces a lot of traction.
+     * Makes the swerve module 'brake' by setting the wheels in a position where it has a lot of traction.
     */
 
     void brake() {
