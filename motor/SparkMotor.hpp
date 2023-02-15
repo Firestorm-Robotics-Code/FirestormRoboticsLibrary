@@ -30,6 +30,10 @@ public:
         spark = new rev::CANSparkMax (canID, rev::CANSparkMax::MotorType::kBrushless);
         controls = new _SparkMotorEncoderControlContainer {spark -> GetEncoder(), spark -> GetPIDController()};
     }
+    ~SparkMotor() {
+        delete spark;
+        delete controls;
+    }
 
     void SetInverted(bool invert) {
         spark -> SetInverted(invert);
@@ -75,7 +79,7 @@ public:
         controls -> pid.SetReference(speed, rev::CANSparkMax::ControlType::kVelocity);
     }
 
-    void ConfigIdleMode(short idleMode) {            // Since rev::CANSparkMax::IdleMode returns 0 or 1, you can just set it to 0 or 1.
+    void ConfigIdleMode(rev::CANSparkMax::IdleMode idleMode) {
         spark -> SetIdleMode(idleMode);
     }
 };

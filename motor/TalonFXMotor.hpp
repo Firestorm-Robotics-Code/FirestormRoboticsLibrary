@@ -23,6 +23,10 @@ public:
         talon = new TalonFX(canID);
     }
 
+    ~TalonFXMotor() {
+        delete talon;
+    }
+
     void SetPercent(double speed){
         if (speed < 0) {
             talon -> SetInverted(!invert);

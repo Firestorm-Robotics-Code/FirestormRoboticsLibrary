@@ -15,6 +15,10 @@ class TalonSRXMotor : public BaseMotor{
      * Internal pointer to a heap-allocated Talon SRX.
      */
     TalonSRX* talon;
+    /**
+     * Whether or not the talon is inverted
+    */
+    bool invert = false;
 public:
     /**
      * Construct a Talon SRX wrapper.
@@ -28,13 +32,14 @@ public:
         delete talon;
     }
     
-    bool SetInverted(bool invert) {
-        talon -> SetInverted(invert);
+    bool SetInverted(bool doInv) {
+        invert = doInv;
     }
     
     void SetPercent(double speed){
         if (speed < 0) {
             talon -> SetInverted(!invert);
+            speed *= -1;
         }
         else {
             talon -> SetInverted(invert);
@@ -69,6 +74,7 @@ public:
     void SetPositionPID(double position){
         if (position < 0) {
             talon -> SetInverted(!invert);
+            position *= -1;
         }
         else {
             talon -> SetInverted(invert);
@@ -80,6 +86,7 @@ public:
     void SetSpeedPID(double speed){
         if (speed < 0) {
             talon -> SetInverted(!invert);
+            speed *= -1;
         }
         else {
             talon -> SetInverted(invert);
